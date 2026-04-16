@@ -1,18 +1,185 @@
-# Backend Programming Template (2025)
+# 🎰 Gacha API (Backend Programming)
 
-## Development Setup
+## 📌 Deskripsi
 
-1. Fork and clone this repository to your local computer.
-2. Open the project using VS Code.
-3. Install the recommended VS Code extensions: `ESLint` and `Prettier`.
-4. Copy and rename `.env.example` to `.env`. Open `.env` and change the database connection string.
-5. Run `npm install` to install the project dependencies.
-6. Run `npm run dev` to start the dev server.
-7. Test the endpoints in the API client app.
+Project ini merupakan implementasi API sederhana untuk fitur **gacha (random hadiah)**.
+User dapat melakukan gacha dengan batas maksimal **5 kali per hari**, dan hasilnya bisa berupa menang (mendapat hadiah) atau kalah.
 
-## Add New API Endpoints
+Selain itu, tersedia endpoint tambahan untuk melihat:
 
-1. Create a new database schema in `./src/models`.
-2. Create a new folder in `./src/api/components` (if needed). Remember to separate your codes to repositories, services, controllers, and routes.
-3. Add the new route in `./src/api/routes.js`.
-4. Test your new endpoints in the API client app.
+- Riwayat gacha user
+- Sisa kuota hadiah
+- Daftar pemenang (dengan nama disamarkan)
+
+---
+
+## ⚙️ Teknologi
+
+- Node.js
+- Express.js
+- MongoDB (Mongoose)
+
+---
+
+## 🚀 Base URL
+
+```
+http://localhost:5000/api
+```
+
+---
+
+## 🎯 Endpoint
+
+### 1. Gacha (POST)
+
+Digunakan untuk melakukan gacha.
+
+**URL**
+
+```
+POST /api/gacha
+```
+
+**Body (JSON)**
+
+```json
+{
+  "userId": "daniel"
+}
+```
+
+**Response (contoh kalah)**
+
+```json
+{
+  "message": "Belum beruntung",
+  "reward": null
+}
+```
+
+**Response (jika menang)**
+
+```json
+{
+  "message": "Selamat kamu menang!",
+  "reward": "Nama Hadiah"
+}
+```
+
+**Response jika limit tercapai**
+
+```json
+{
+  "message": "Limit gacha 5x per hari tercapai"
+}
+```
+
+---
+
+### 2. History Gacha (GET)
+
+Melihat riwayat gacha berdasarkan user.
+
+**URL**
+
+```
+GET /api/gacha/history/:userId
+```
+
+**Contoh**
+
+```
+GET /api/gacha/history/daniel
+```
+
+**Response**
+
+```json
+[
+  {
+    "_id": "...",
+    "userId": "daniel",
+    "date": "Thu Apr 16 2026",
+    "reward": null
+  }
+]
+```
+
+---
+
+### 3. Rewards (GET)
+
+Melihat daftar hadiah dan sisa kuota.
+
+**URL**
+
+```
+GET /api/rewards
+```
+
+**Response**
+
+```json
+[
+  {
+    "name": "Hadiah A",
+    "remaining": 3
+  }
+]
+```
+
+---
+
+### 4. Winners (GET)
+
+Menampilkan daftar user yang pernah menang (nama disamarkan).
+
+**URL**
+
+```
+GET /api/winners
+```
+
+**Response**
+
+```json
+[
+  {
+    "user": "d****l",
+    "reward": "Pulsa"
+  }
+]
+```
+
+---
+
+## 🧪 Pengujian (Echo API)
+
+Pengujian dilakukan menggunakan Echo API dengan hasil:
+
+- Endpoint `/gacha` berhasil dijalankan (status 200)
+- Limit 5x per hari berjalan dengan benar (status 400 jika melebihi)
+- History berhasil menampilkan data
+- Rewards dan Winners berhasil diakses
+
+---
+
+## ⚠️ Catatan
+
+- User hanya bisa melakukan gacha maksimal 5 kali per hari
+- Sistem menggunakan random untuk menentukan menang/kalah
+- Data disimpan ke MongoDB
+
+---
+
+## 📌 Kesimpulan
+
+API ini berhasil mengimplementasikan:
+
+- Sistem gacha dengan limit harian
+- Penyimpanan history
+- Pengelolaan reward dengan kuota
+- Endpoint tambahan untuk monitoring data
+
+---
