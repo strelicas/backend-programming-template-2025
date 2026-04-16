@@ -1,15 +1,15 @@
 module.exports = (app) => {
   const gachaController = require('../components/controller/gachaController'); // ✅ FIX
 
-  // 🎯 GACHA
+  // unruk gaca
   app.post('/gacha', gachaController.gacha);
 
-  // 📜 HISTORY
+  // untuk history
   app.get('/gacha/history/:userId', gachaController.history);
 
-  // 📊 REWARDS
+  // untuk reward
   app.get('/rewards', gachaController.getRewards);
 
-  // 🕵️ WINNERS
+  // untuk winner
   app.get('/winners', gachaController.winners);
 };

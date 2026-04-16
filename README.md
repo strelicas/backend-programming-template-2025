@@ -1,101 +1,64 @@
-# 🎰 Gacha API (Backend Programming)
 
-## 📌 Deskripsi
 
-Project ini merupakan implementasi API sederhana untuk fitur **gacha (random hadiah)**.
-User dapat melakukan gacha dengan batas maksimal **5 kali per hari**, dan hasilnya bisa berupa menang (mendapat hadiah) atau kalah.
+menambahkan sistem gacha yang di batasi 5 kali per hari
 
-Selain itu, tersedia endpoint tambahan untuk melihat:
+ tersedia endpoint tambahan untuk melihat:
 
-- Riwayat gacha user
-- Sisa kuota hadiah
-- Daftar pemenang (dengan nama disamarkan)
+-Riwayat gacha user
+ Sisa kuota hadiah
+ Daftar pemenang (dengan nama disamarkan)
 
----
 
-## ⚙️ Teknologi
-
-- Node.js
-- Express.js
-- MongoDB (Mongoose)
-
----
-
-## 🚀 Base URL
-
-```
-http://localhost:5000/api
-```
-
----
-
-## 🎯 Endpoint
-
-### 1. Gacha (POST)
+endpoint 1
+gacha (pos)
 
 Digunakan untuk melakukan gacha.
 
-**URL**
-
-```
-POST /api/gacha
-```
-
-**Body (JSON)**
-
-```json
 {
   "userId": "daniel"
 }
-```
 
-**Response (contoh kalah)**
+contoh kaalau ga beruntung
 
-```json
+
 {
   "message": "Belum beruntung",
   "reward": null
 }
-```
 
-**Response (jika menang)**
 
-```json
+contoh kalau beruntung
+
+
 {
   "message": "Selamat kamu menang!",
   "reward": "Nama Hadiah"
 }
-```
 
-**Response jika limit tercapai**
+respon jika limit habis
 
-```json
+
 {
   "message": "Limit gacha 5x per hari tercapai"
 }
-```
 
----
 
-### 2. History Gacha (GET)
+end point 2 (history)
 
 Melihat riwayat gacha berdasarkan user.
 
-**URL**
+url 
 
-```
 GET /api/gacha/history/:userId
-```
 
-**Contoh**
 
-```
+contoh
+
 GET /api/gacha/history/daniel
-```
 
-**Response**
 
-```json
+respon
+
 [
   {
     "_id": "...",
@@ -104,82 +67,49 @@ GET /api/gacha/history/daniel
     "reward": null
   }
 ]
-```
 
----
 
-### 3. Rewards (GET)
+
+end point 3
 
 Melihat daftar hadiah dan sisa kuota.
 
-**URL**
 
-```
+
+link
 GET /api/rewards
-```
 
-**Response**
 
-```json
+respon
+
+
 [
   {
     "name": "Hadiah A",
     "remaining": 3
   }
 ]
-```
 
----
-
-### 4. Winners (GET)
+bonus end point 4
 
 Menampilkan daftar user yang pernah menang (nama disamarkan).
 
-**URL**
+url
 
-```
+
 GET /api/winners
-```
 
-**Response**
 
-```json
+respon
+
+
 [
   {
     "user": "d****l",
     "reward": "Pulsa"
   }
 ]
-```
 
----
 
-## 🧪 Pengujian (Echo API)
 
-Pengujian dilakukan menggunakan Echo API dengan hasil:
 
-- Endpoint `/gacha` berhasil dijalankan (status 200)
-- Limit 5x per hari berjalan dengan benar (status 400 jika melebihi)
-- History berhasil menampilkan data
-- Rewards dan Winners berhasil diakses
-
----
-
-## ⚠️ Catatan
-
-- User hanya bisa melakukan gacha maksimal 5 kali per hari
-- Sistem menggunakan random untuk menentukan menang/kalah
-- Data disimpan ke MongoDB
-
----
-
-## 📌 Kesimpulan
-
-API ini berhasil mengimplementasikan:
-
-- Sistem gacha dengan limit harian
-- Penyimpanan history
-- Pengelolaan reward dengan kuota
-- Endpoint tambahan untuk monitoring data
-
----
