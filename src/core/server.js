@@ -2,42 +2,47 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const express = require('express');
 const pinoHTTP = require('pino-http');
+const mongoose = require('mongoose');
 
 const config = require('./config');
 const logger = require('./logger')('app');
 const routes = require('../api/routes');
 const { errorResponder, errorTypes } = require('./errors');
 
+//  CONNECT MONGODB 
+const uri = `${process.env.DB_CONNECTION}/${process.env.DB_NAME}`;
+
+mongoose.connect(uri)
+  .then(() => logger.info("MongoDB Connected"))
+  .catch((err) => logger.error(err, "MongoDB connection error"));
+
 const app = express();
 
 // Useful if behind a reverse proxy (Heroku, Bluemix, AWS ELB, Nginx, etc).
-// It shows the real origin IP in the Heroku or Cloudwatch logs.
 app.enable('trust proxy');
 
-// Enable cross origin resource sharing to all origins by default
+// Enable CORS
 app.use(cors());
 
-// Let you use HTTP verbs such as PUT or DELETE in places where the client doesn't support it
+// HTTP verbs override
 app.use(require('method-override')());
 
-// Middleware that transforms the raw string of request.body into JSON
+// Body parser
 app.use(bodyParser.json());
-
-// Needed to use multipart/form-data for file uploads
 app.use(bodyParser.urlencoded({ extended: false }));
 
-// Log HTTP requests with Pino
+// Logger
 app.use(pinoHTTP({ logger }));
 
-// API routes
+// Routes
 app.use(`${config.api.prefix}`, routes());
 
-// Handle 404 route
+// 404 handler
 app.use((request, response, next) =>
   next(errorResponder(errorTypes.ROUTE_NOT_FOUND, 'Route not found'))
 );
 
-// Error loggers
+// Error logger
 app.use((error, request, response, next) => {
   const ctx = {
     code: error.code,
@@ -45,7 +50,6 @@ app.use((error, request, response, next) => {
     description: error.description,
   };
 
-  // If this error is thrown by our code execution, then also log the stack trace
   if (error.stack) {
     ctx.stack = error.stack;
   }
@@ -55,8 +59,7 @@ app.use((error, request, response, next) => {
   return next(error);
 });
 
-// Send error response to the caller
-// eslint-disable-next-line no-unused-vars
+// Error response
 app.use((error, request, response, next) =>
   response.status(error.status || 500).json({
     statusCode: error.status || 500,
