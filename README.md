@@ -106,7 +106,7 @@ respon
 [
   {
     "user": "d****l",
-    "reward": "Pulsa"
+    "reward": "Pulsa 50k"
   }
 ]
 

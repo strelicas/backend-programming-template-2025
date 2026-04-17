@@ -1,5 +1,5 @@
 module.exports = (app) => {
-  const gachaController = require('../components/controller/gachaController'); // ✅ FIX
+  const gachaController = require('../components/controller/gachaController'); 
 
   // unruk gaca
   app.post('/gacha', gachaController.gacha);

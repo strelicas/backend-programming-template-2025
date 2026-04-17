@@ -49,13 +49,13 @@ exports.gacha = async (req, res) => {
   }
 };
 
-// 📜 BONUS 1: HISTORY
+
 exports.history = async (req, res) => {
   const data = await Gacha.find({ userId: req.params.userId });
   res.json(data);
 };
 
-// 📊 BONUS 2: SISA KUOTA
+
 exports.getRewards = async (req, res) => {
   const rewards = await Reward.find();
 
@@ -67,7 +67,7 @@ exports.getRewards = async (req, res) => {
   res.json(result);
 };
 
-// 🕵️ BONUS 3: WINNERS (ANONYM)
+
 function maskName(name) {
   return name.replace(/.(?=.{2})/g, "*");
 }
