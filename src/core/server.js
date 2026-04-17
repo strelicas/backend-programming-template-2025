@@ -18,7 +18,7 @@ mongoose.connect(uri)
 
 const app = express();
 
-// Useful if behind a reverse proxy (Heroku, Bluemix, AWS ELB, Nginx, etc).
+
 app.enable('trust proxy');
 
 // Enable CORS
@@ -27,11 +27,11 @@ app.use(cors());
 // HTTP verbs override
 app.use(require('method-override')());
 
-// Body parser
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
-// Logger
+
 app.use(pinoHTTP({ logger }));
 
 // Routes
